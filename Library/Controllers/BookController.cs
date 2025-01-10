@@ -122,17 +122,6 @@ namespace Library.Controllers
                 return NotFound("Error, no book found. Please try again...");
             }
 
-            //Kollar bokens nuvarande utlåning
-            var lending = await _context.Lendings
-                .Where(l => l.BookId == bookId && l.DateOfReturn == null)
-                .FirstOrDefaultAsync(); 
-
-            if (lending == null)
-            {
-                return BadRequest("No ongoing lending found for this book.");
-            }
-
-            lending.DateOfReturn = DateTime.Now;
             book.IsAvailable = true; //Ändras tillbaka till sant då boken är tillgänglig nu
             await _context.SaveChangesAsync();
 
